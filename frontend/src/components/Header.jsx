@@ -21,8 +21,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log('Cart Items are', cartItems);
-
   const [logoutApiCall] = useLogoutMutation();
 
   const logoutHandler = async () => {
@@ -77,6 +75,21 @@ const Header = () => {
                 </LinkContainer>
               )}
             </Nav>
+            {userInfo && userInfo?.isAdmin && (
+              <div style={{ color: 'white' }}>
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
+              </div>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
