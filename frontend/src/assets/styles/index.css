@@ -51,3 +51,24 @@ table th {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
+
+.carousel-img {
+  height: 300px;
+  object-fit: cover; /* fill the space like background-size: cover */
+  object-position: center;
+}
+
+.footer-header-styling {
+  color: #fff;
+  background: #000;
+}
+
+.black-font {
+  color: #000;
+}
+
+.same-row {
+  display: flex;
+  align-items: center; /* vertical alignment */
+  gap: 0.75rem; /* space between image & text */
+}

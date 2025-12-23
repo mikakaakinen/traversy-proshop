@@ -1,14 +1,17 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React from "react";
+import { Container, Row, Col, Navbar } from "react-bootstrap";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <footer>
+    <footer className="footer-header-styling">
       <Container>
         <Row>
-          <Col className='text-center py-3'>
-            <p>ProShop &copy; {currentYear}</p>
+          <Col className="text-center py-3">
+            <p>
+              Made with &#10084; in Riihimäki, Finland, According to the MERN
+              Stack Course by Brad Traversy &copy; {currentYear}
+            </p>
           </Col>
         </Row>
       </Container>

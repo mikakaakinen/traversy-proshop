@@ -1,5 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
 //useParams is used to get id from url
 import {
   Row,
@@ -9,18 +9,18 @@ import {
   Button,
   Card,
   ListGroupItem,
-} from 'react-bootstrap';
-import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
+} from "react-bootstrap";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
   useDeliverOrderMutation,
-} from '../slices/ordersApiSlice';
+} from "../slices/ordersApiSlice";
 
 const OrderScreen = () => {
   const { id: orderId } = useParams();
@@ -52,13 +52,13 @@ const OrderScreen = () => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
       const loadPayPalScript = async () => {
         paypalDispatch({
-          type: 'resetOptions',
+          type: "resetOptions",
           value: {
-            'client-id': paypal.clientId,
-            currency: 'EUR',
+            "client-id": paypal.clientId,
+            currency: "EUR",
           },
         });
-        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
       if (order && !order.isPaid) {
         if (!window.paypal) {
@@ -71,9 +71,9 @@ const OrderScreen = () => {
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
       try {
-        await payOrder({ orderId, details });
+        await payOrder({ orderId, details }).unwrap();
         refetch();
-        toast.success('Order is paid');
+        toast.success("Order is paid");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
@@ -84,7 +84,7 @@ const OrderScreen = () => {
     try {
       await payOrder({ orderId, details: { payer: {} } }).unwrap();
       refetch();
-      toast.success('Payment successful');
+      toast.success("Payment successful");
     } catch (error) {
       toast.error(error.data.message);
     }
@@ -112,7 +112,7 @@ const OrderScreen = () => {
     try {
       await deliverOrder(orderId);
       refetch();
-      toast.success('Order delivered');
+      toast.success("Order delivered");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -121,13 +121,13 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger' />
+    <Message variant="danger"> {error?.data?.message || error.error}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             <ListGroupItem>
               <h2>Shipping</h2>
               <p>
@@ -141,12 +141,12 @@ const OrderScreen = () => {
               <p>
                 <strong>Address: </strong>
                 {order.shippingAddress.address},{order.shippingAddress.city}
-                {''}
-                {order.shippingAddress.postalCode},{''}
+                {""}
+                {order.shippingAddress.postalCode},{""}
                 {order.shippingAddress.country}
               </p>
               {order.isDelivered ? (
-                <Message variant='success'>
+                <Message variant="success">
                   Delivered on {order.deliveredAt}
                 </Message>
               ) : (
@@ -160,7 +160,7 @@ const OrderScreen = () => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant='success'>Paid on {order.paidAt}</Message>
+                <Message variant="success">Paid on {order.paidAt}</Message>
               ) : (
                 <Message>Not Paid</Message>
               )}
@@ -187,7 +187,7 @@ const OrderScreen = () => {
         </Col>
         <Col md={4}>
           <Card>
-            <ListGroup variant='flush'>
+            <ListGroup variant="flush">
               <ListGroupItem>
                 <h2>Order Summary</h2>
               </ListGroupItem>
@@ -217,7 +217,7 @@ const OrderScreen = () => {
                     <Loader />
                   ) : (
                     <div>
-                      {' '}
+                      {" "}
                       {/*
                       <Button
                         onClick={onApproveTest}
@@ -244,8 +244,8 @@ const OrderScreen = () => {
                 !order.isDelivered && (
                   <ListGroupItem>
                     <Button
-                      type='button'
-                      className='btn btn-block'
+                      type="button"
+                      className="btn btn-block"
                       onClick={deliverOrderHandler}
                     >
                       Mark as Delivered
