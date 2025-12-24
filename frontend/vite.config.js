@@ -7,8 +7,8 @@ export default defineConfig({
   server: {
     // proxy requests prefixed '/api'
     proxy: {
-      // Remove the proxy setup for production
-      proxy: null,
+      '/api': 'http://localhost:5000',
+      '/uploads': 'http://localhost:5000',
     },
     // port: 5173,
   },
