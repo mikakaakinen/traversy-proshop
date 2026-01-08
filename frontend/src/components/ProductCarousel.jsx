@@ -1,19 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Carousel, Image } from "react-bootstrap";
-import Loader from "./Loader";
-import Message from "./Message";
-import { useGetTopProductsQuery } from "../slices/productsApiSlice";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Carousel, Image } from 'react-bootstrap';
+import Loader from './Loader';
+import Message from './Message';
+import { useGetTopProductsQuery } from '../slices/productsApiSlice';
 
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetTopProductsQuery();
 
-  return isLoading ? (
-    <Loader />
-  ) : error ? (
-    <Message variant="danger">{error?.data?.message || error.error}</Message>
+  if (isLoading) return null;
+
+  return error ? (
+    <Message variant='danger'>{error?.data?.message || error.error}</Message>
   ) : (
-    <Carousel pause="hover" className="bg-dark mb-4">
+    <Carousel pause='hover' className='bg-dark mb-4'>
       {products.map((product) => (
         <Carousel.Item>
           <Link to={`/product/${product._id}`}>
@@ -21,9 +21,9 @@ const ProductCarousel = () => {
               src={product.image}
               alt={product.name}
               fluid
-              className="d-block w-100 carousel-img"
+              className='d-block w-100 carousel-img'
             />
-            <Carousel.Caption className="carousel-caption">
+            <Carousel.Caption className='carousel-caption'>
               <h2>
                 {product.name} (${product.price})
               </h2>
